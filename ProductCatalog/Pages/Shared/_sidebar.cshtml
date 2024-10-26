@@ -1,0 +1,223 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Http
+<!-- Main Sidebar Container -->
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+	<!-- Brand Logo -->
+	<a href="/admin/dashboard" class="px-4">
+		<img src="~/logo.png" style="height:80px;width:70%;object-fit:contain;object-position:center" />
+	</a>
+
+	<!-- Sidebar -->
+	<div class="sidebar">
+		<!-- Sidebar Menu -->
+		<nav class="mt-2">
+			<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+				<!-- Add icons to the links using the .nav-icon class
+	with font-awesome or any other icon font library -->
+				<li class="nav-item">
+					<a href="/admin/dashboard" class="nav-link" id="menu_dashboard">
+						<i class="nav-icon fas fa-tachometer-alt"></i>
+						<p>
+							Dasbhoard
+						</p>
+					</a>
+				</li>
+				<li class="nav-item" id="menu_masterdata_collapse">
+					<a href="#" class="nav-link" id="menu_masterdata">
+						<i class="nav-icon fas fa-table"></i>
+						<p>
+							Master Data
+							<i class="fas fa-angle-left right"></i>
+						</p>
+					</a>
+					<ul class="nav nav-treeview">
+						<li class="nav-item">
+							<a href="/admin/zones" class="nav-link" id="menu_masterdata_zones">
+								<i class="far fa-circle nav-icon"></i>
+								<p>
+									Zone
+								</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="/admin/cashtitles" class="nav-link" id="menu_masterdata_cashtitles">
+								<i class="far fa-circle nav-icon"></i>
+								<p>
+									Cash Title
+								</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="/admin/countryzones" class="nav-link" id="menu_masterdata_countryzones">
+								<i class="far fa-circle nav-icon"></i>
+								<p>
+									Country Zones
+								</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="/admin/countriesPerKg" class="nav-link" id="menu_masterdata_countriesperkg">
+								<i class="far fa-circle nav-icon"></i>
+								<p>
+									Country PerKg
+								</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="/admin/currencies" class="nav-link" id="menu_masterdata_currencies">
+								<i class="far fa-circle nav-icon"></i>
+								<p>
+									Currency
+								</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="/admin/docrates" class="nav-link" id="menu_masterdata_docrates">
+								<i class="far fa-circle nav-icon"></i>
+								<p>
+									Doc Rate
+								</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="/admin/nondocrates" class="nav-link" id="menu_masterdata_nondocrates">
+								<i class="far fa-circle nav-icon"></i>
+								<p>
+									Non-Doc Rate
+								</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="/admin/multiplierrates" class="nav-link" id="menu_masterdata_multiplierrates">
+								<i class="far fa-circle nav-icon"></i>
+								<p>
+									Multiplier Rate
+								</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="/admin/ratepercent/priceupdatelist" class="nav-link" id="menu_masterdata_ratepercents">
+								<i class="far fa-circle nav-icon"></i>
+								<p>
+									Update Rates
+								</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="/admin/exchangerates" class="nav-link" id="menu_masterdata_exchangerates">
+								<i class="far fa-circle nav-icon"></i>
+								<p>
+									Exchange Rate
+								</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="/admin/promotions" class="nav-link" id="menu_masterdata_promotions">
+								<i class="far fa-circle nav-icon"></i>
+								<p>
+									Promotion
+								</p>
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li class="nav-item">
+					<a href="/admin/addressbooks" class="nav-link" id="menu_addressbooks">
+						<i class="nav-icon fa fa-address-book "></i>
+						<p>
+							Address Book
+						</p>
+					</a>
+				</li>
+				<li class="nav-item" id="menu_invoice_collapse">
+					<a href="#" class="nav-link" id="menu_invoice">
+						<i class="nav-icon fas fa-file-invoice"></i>
+						<p>
+							Invoice
+							<i class="fas fa-angle-left right"></i>
+						</p>
+					</a>
+					<ul class="nav nav-treeview">
+						<li class="nav-item">
+							<a href="/admin/invoices/invoice" class="nav-link" id="menu_invoice_invoices">
+								<i class="far fa-circle nav-icon"></i>
+								<p>
+									Invoice Create
+								</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="/admin/invoices/invoicelist" class="nav-link" id="menu_invoice_invoicelists">
+								<i class="far fa-circle nav-icon"></i>
+								<p>
+									Invoice List
+								</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="/admin/invoices/invoicedeletelist" class="nav-link" id="menu_invoice_invoicedeletelists">
+								<i class="far fa-circle nav-icon"></i>
+								<p>
+									Invoice Delete List
+								</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="/admin/invoices/invoicereport" class="nav-link" id="menu_invoice_invoicereports">
+								<i class="far fa-circle nav-icon"></i>
+								<p>
+									Invoice Report List
+								</p>
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li class="nav-item" id="menu_finance_collapse">
+					<a href="#" class="nav-link" id="menu_finance">
+						<i class="nav-icon fas fa-users"></i>
+						<p>
+							Finance
+							<i class="fas fa-angle-left right"></i>
+						</p>
+					</a>
+					<ul class="nav nav-treeview">
+						<li class="nav-item">
+							<a href="/admin/statements" class="nav-link" id="menu_statements">
+								<i class="far fa-circle nav-icon"></i>
+								<p>
+									Statements
+								</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="/admin/cashinouts" class="nav-link" id="menu_finance_cashinouts">
+								<i class="far fa-circle nav-icon"></i>
+								<p>
+									Cash In/Out
+								</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="/admin/statements/statementreport" class="nav-link" id="menu_statements_report">
+								<i class="far fa-circle nav-icon"></i>
+								<p>
+									Statements Report
+								</p>
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li class="nav-item">
+					<a href="/admin/logout" class="nav-link" id="menu_logout">
+						<i class="nav-icon fas fa-sign-out-alt"></i>
+						<p>
+							Logout
+						</p>
+					</a>
+				</li>
+			</ul>
+		</nav>
+		<!-- /.sidebar-menu -->
+	</div>
+	<!-- /.sidebar -->
+</aside>
