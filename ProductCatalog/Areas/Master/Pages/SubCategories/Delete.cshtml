@@ -1,0 +1,60 @@
+﻿@page
+@model ProductCatalog.Areas.Master.Pages.SubCategories.DeleteModel
+@{
+    ViewBag.Title = "SubCategory";
+    ViewBag.pageTitle = "SubCategories";
+}
+
+<div class="row d-flex justify-content-center">
+    <div class="col-xl-5 col-lg-6 col-md-7 col-sm-10">
+        <div class="card">
+            <div class="card-header bg-light">
+                <div class="card-title text-danger">
+                    <h5 class="mb-0">Delete SubCategory</h5>
+                </div>
+            </div>
+            <div class="card-body">
+                <form id="subcategoryForm" method="post">
+                    <div id="checkCat" class="alert alert-danger">
+                        <span>You can't delete this subcategory because it was already created in product.</span>
+                    </div>
+                    <p>Are you sure want to delete this <b>@Model.ViSubCategory!.CatName</b> ?</p>
+                    <input type="hidden" asp-for="ViSubCategory!.SubId" />
+                    <input type="hidden" asp-for="ViSubCategory!.SubName" />
+                    <input type="hidden" asp-for="ViSubCategory!.CatId" />
+                    <input type="hidden" asp-for="ViSubCategory!.CatName" />
+                    <div class="form-group">
+                        <input id="btndelete" type="submit" value="Delete" class="btn btn-danger" />
+                        <a class="btn btn-secondary" asp-page="./Index" asp-area="Master">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<partial name="_Admin_Vendor_Scripts" />
+
+<script src="~/lib/crypto-js/crypto-js.min.js"></script>
+<script src="~/lib/crypto-js/aes.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        menu_master_subcategory();
+
+        var cid = (new URL(location.href)).searchParams.get('id');
+        var decrypt_cid = cryptoDecrypt(decodeURIComponent(cid));
+        var url = '@Url.Content("~/")' + "api/master/subcategory/" + decrypt_cid;
+        $.getJSON(url, function (data) {
+            var data = data["data"];
+            console.log(data);
+            if (data !== null) {
+                $("#checkCat").show();
+                document.getElementById('btndelete').disabled = true;
+            }
+            else {
+                $("#checkCat").hide();
+                document.getElementById('btndelete').disabled = false;
+            }
+        });
+    })
+</script>

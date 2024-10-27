@@ -1,0 +1,173 @@
+﻿@page
+@model ProductCatalog.Areas.Master.Pages.SubCategories.IndexModel
+@{
+    ViewBag.Title = "SubCategory";
+    ViewBag.pageTitle = "SubCategories";
+}
+<!-- DataTables -->
+<link rel="stylesheet" href="~/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="~/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+<link rel="stylesheet" href="~/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+<link href="~/plugins/datatables-select/css/select.bootstrap4.css" rel="stylesheet" />
+<link href="~/css/datatable-custom.css" rel="stylesheet" />
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-2">
+                    <div class="col-xl-6 col-lg-6 mb-lg-0 mb-2">
+                        <button id="btnCreate" type="button" class="btn btn-light"><i class="fa fa-plus-circle"></i>&nbsp;Create</button>
+                        <button id="btnEdit" type="button" class="btn btn-light"><i class="fa fa-pen"></i>&nbsp;Edit</button>
+                        <button id="btnDelete" type="button" class="btn btn-light"><i class="fa fa-trash"></i>&nbsp;Delete</button>
+                        <button id="btnExcel" type="button" class="btn btn-light"><i class="fa fa-file-excel"></i>&nbsp;Excel</button>
+                    </div>
+                    <div class="col-xl-6 col-lg-6">
+                        <div class="input-group">
+                            <label class="input-group-text bg-light"><i class="fa fa-search"></i></label>
+                            <input id="TxtSearch" class="form-control" type="text" placeholder="Search for something..." />
+                        </div>
+                        <span id="LblSearchCount" class="badge bg-light px-2 py-2 search-count"></span>
+                    </div>
+                </div>
+                <table id="example" class="table table-bordereless table-striped table-hover" cellspacing="0">
+                    <thead class="bg-light align-center">
+                        <tr>
+                            <th class="text-center">#</th>
+                            <th>Sub Name</th>
+                            <th>Cat Name</th>
+                            <th>Created Date</th>
+                            <th>Created User</th>
+                            <th>Updated Date</th>
+                            <th>Updated User</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div> <!-- end col -->
+</div> <!-- end row -->
+<!-- JAVASCRIPT -->
+<partial name="_Admin_Vendor_Scripts" />
+<partial name="_vendor_datatable_scripts" />
+
+<script>
+    $(document).ready(function () {
+        menu_master_subcategory();
+        var table = $('#example').DataTable({
+            autoWidth: false,
+            responsive: true,
+            ajax: function (data, callback, settings) {
+                $.ajax({
+                    url: "@Url.Content("~/")" + "api/master/subcategory",
+                }).then(function (json) {
+                    json["data"] = json["data"];
+                    callback(json);
+                });
+            },
+            dom: '<"top"f>rt<"bottom"ilp><"clear">',
+            lengthMenu: [
+                [10, 25, 50, 100, -1],
+                ['10', '25', '50', '100', 'All']
+            ],
+            buttons: [{
+                extend: "excelHtml5",
+                className: "btn-success",
+                title: ('@ViewBag.Title' + ' (@DateTime.Now.ToString("dd-MMM-yyyy"))').trim(' '),
+                exportOptions: {
+                    orthogonal: "myExport", columns: 'th:not(:first-child)'
+                }
+            }],
+            columns: [
+                { defaultContent: '' },
+                { data: "subName" },
+                { data: "catName" },
+                {
+                    data: "createdDate",
+                    render: function (data) {
+                        return getDateFormat(data);
+                    }
+                },
+                { data: "createdUser" },
+                {
+                    data: "updatedDate",
+                    render: function (data) {
+                        if (data !== null) {
+                            return getDateFormat(data);
+                        }
+                        else {
+                            return 'N/A';
+                        }
+                    }
+                },
+                {
+                    data: "updatedUser",
+                    render: function (data) {
+                        if (data !== null) {
+                            return data;
+                        }
+                        else {
+                            return 'N/A';
+                        }
+                    }
+                }
+            ],
+            select: {
+                style: 'os',
+                selector: 'td:first-child'
+            },
+            columnDefs: [
+                {
+                    targets: 0,
+                    orderable: false,
+                    className: 'select-checkbox',
+                },],
+            order: [
+                [1, 'desc']
+            ]
+        });
+
+        table.on('select', function (e, dt, type, indexes) {
+            $('input[type="checkbox"]', table.rows().nodes()).prop('checked', false);
+            if (type === 'row') { $('input[type="checkbox"]', table.rows(indexes).nodes()).prop('checked', true); }
+        });
+
+        table.on('deselect', function (e, dt, type, indexes) {
+            $('input[type="checkbox"]', table.rows(indexes).nodes()).prop('checked', false);
+        });
+
+        $('#TxtSearch').keyup(function () {
+            table.search($(this).val()).draw();
+            if ($('#TxtSearch').val() == '') {
+                $('#LblSearchCount').hide();
+            }
+            else {
+                $('#LblSearchCount').show();
+            }
+
+            searchCount = table.rows({ search: 'applied' }).count();
+            $('#LblSearchCount').html('Result count: <b>' + searchCount + '</b>');
+        });
+
+        $('#btnCreate').click(function () {
+            window.location.href = 'subcategories/create';
+        });
+
+        $('#btnEdit').click(function () {
+            var selectedItem = table.rows({ selected: true }).data()[0];
+            if (selectedItem != null) {
+                window.location.href = 'subcategories/edit?id=' + encodeURIComponent(cryptoEncrypt(selectedItem.subId));
+            }
+        });
+
+        $('#btnDelete').click(function () {
+            var selectedItem = table.rows({ selected: true }).data()[0];
+            if (selectedItem != null) {
+                window.location.href = 'subcategories/delete?id=' + encodeURIComponent(cryptoEncrypt(selectedItem.subId));
+            }
+        });
+
+        $('#btnExcel').click(function () {
+            table.buttons('.buttons-excel').trigger();
+        });
+    });
+</script>
