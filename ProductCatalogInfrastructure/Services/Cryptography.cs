@@ -14,8 +14,8 @@ namespace ProductCatalogInfrastructure.Services
     {
         public string EncryptAES(string plainText)
         {
-            byte[] keybytes = Encoding.UTF8.GetBytes("5171061885171061");
-            byte[] iv = Encoding.UTF8.GetBytes("5171061885171061");
+            byte[] keybytes = Encoding.UTF8.GetBytes("8945603788714414");
+            byte[] iv = Encoding.UTF8.GetBytes("8945603788714414");
 
             // Check arguments.
             if (plainText == null || plainText.Length <= 0)
@@ -67,8 +67,8 @@ namespace ProductCatalogInfrastructure.Services
                 return string.Empty;
             }
 
-            byte[] keybytes = Encoding.UTF8.GetBytes("5171061885171061");
-            byte[] iv = Encoding.UTF8.GetBytes("5171061885171061");
+            byte[] keybytes = Encoding.UTF8.GetBytes("8945603788714414");
+            byte[] iv = Encoding.UTF8.GetBytes("8945603788714414");
             //DECRYPT FROM CRIPTOJS
             byte[] encrypted = Convert.FromBase64String(cipherText);
 
@@ -104,8 +104,8 @@ namespace ProductCatalogInfrastructure.Services
 
         public string EncryptAES_HEX(string plainText)
         {
-            byte[] keybytes = Encoding.UTF8.GetBytes("5171061885171061");
-            byte[] iv = Encoding.UTF8.GetBytes("5171061885171061");
+            byte[] keybytes = Encoding.UTF8.GetBytes("8945603788714414");
+            byte[] iv = Encoding.UTF8.GetBytes("8945603788714414");
 
             // Check arguments.
             if (plainText == null || plainText.Length <= 0)
@@ -157,8 +157,8 @@ namespace ProductCatalogInfrastructure.Services
                 return string.Empty;
             }
 
-            byte[] keybytes = Encoding.UTF8.GetBytes("5171061885171061");
-            byte[] iv = Encoding.UTF8.GetBytes("5171061885171061");
+            byte[] keybytes = Encoding.UTF8.GetBytes("8945603788714414");
+            byte[] iv = Encoding.UTF8.GetBytes("8945603788714414");
             //DECRYPT FROM CRIPTOJS
             byte[] encrypted = Convert.FromHexString(cipherText);
 
