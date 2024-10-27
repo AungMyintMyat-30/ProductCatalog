@@ -1,0 +1,64 @@
+﻿/*table.dataTable thead.bg-light {
+    background: rgb(245 245 245) !important;
+}*/
+
+table.dataTable tbody td {
+    vertical-align: middle !important;
+}
+
+tbody tr.selected {
+    background: rgb(240 242 247 / 0.80) !important;
+    color: #000 !important;
+    font-weight: 500;
+}
+
+
+table.dataTable tbody td.select-checkbox:before {
+    top: 50% !important;
+}
+
+table.dataTable tbody td.select-checkbox:after {
+    top: 50% !important;
+}
+
+.dataTables_paginate {
+    position: absolute;
+    bottom: 45px;
+    right: 20px;
+}
+
+.dataTables_length {
+    margin-top: 10px;
+}
+
+.dataTables_filter {
+    display: none;
+}
+
+.search-count {
+    position: absolute;
+    top: 6px;
+    right: 20px;
+    z-index: 9999;
+}
+
+@media only screen and (max-width: 768px) {
+
+    .dataTables_paginate {
+        position: relative;
+        bottom: 0px;
+        right: 15px;
+    }
+}
+
+.type-image {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50px;
+}
+
+.switch-control {
+    top: 50% !important;
+    position: absolute;
+}
