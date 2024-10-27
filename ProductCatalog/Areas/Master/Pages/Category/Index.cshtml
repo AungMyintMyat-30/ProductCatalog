@@ -153,17 +153,16 @@
         $('#btnEdit').click(function () {
             var selectedItem = table.rows({ selected: true }).data()[0];
             if (selectedItem != null) {
-                window.location.href = 'diseases/edit?id=' + encodeURIComponent(cryptoEncrypt(selectedItem.diseaseId));
+                window.location.href = 'category/edit?id=' + encodeURIComponent(cryptoEncrypt(selectedItem.catId));
             }
         });
 
-        // $('#btnDelete').click(function () {
-        //     var selectedItem = table.rows({ selected: true }).data()[0];
-        //     if (selectedItem != null) {
-        //         console.log(selectedItem);
-        //         window.location.href = 'diseases/delete?id=' + encodeURIComponent(cryptoEncrypt(selectedItem.diseaseId));
-        //     }
-        // });
+        $('#btnDelete').click(function () {
+            var selectedItem = table.rows({ selected: true }).data()[0];
+            if (selectedItem != null) {
+                window.location.href = 'category/delete?id=' + encodeURIComponent(cryptoEncrypt(selectedItem.catId));
+            }
+        });
 
         $('#btnExcel').click(function () {
             table.buttons('.buttons-excel').trigger();
