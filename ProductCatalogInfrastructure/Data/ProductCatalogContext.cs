@@ -22,6 +22,14 @@ public partial class ProductCatalogContext : DbContext
 
     public virtual DbSet<Supplier> Suppliers { get; set; }
 
+    public virtual DbSet<ViProduct> ViProducts { get; set; }
+
+    public virtual DbSet<ViPurchase> ViPurchases { get; set; }
+
+    public virtual DbSet<ViStock> ViStocks { get; set; }
+
+    public virtual DbSet<ViSubCategory> ViSubCategories { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Product>(entity =>
@@ -37,6 +45,26 @@ public partial class ProductCatalogContext : DbContext
         modelBuilder.Entity<SubCategory>(entity =>
         {
             entity.Property(e => e.SubId).ValueGeneratedOnAdd();
+        });
+
+        modelBuilder.Entity<ViProduct>(entity =>
+        {
+            entity.ToView("VI_Product");
+        });
+
+        modelBuilder.Entity<ViPurchase>(entity =>
+        {
+            entity.ToView("VI_Purchase");
+        });
+
+        modelBuilder.Entity<ViStock>(entity =>
+        {
+            entity.ToView("VI_Stock");
+        });
+
+        modelBuilder.Entity<ViSubCategory>(entity =>
+        {
+            entity.ToView("VI_SubCategory");
         });
 
         OnModelCreatingPartial(modelBuilder);
