@@ -14,6 +14,59 @@ function menu_master_category() {
     $('#menu_master_category').addClass("active");
 }
 
+function menu_master_subcategory() {
+    // Menu Item Active Method
+    $('#menu_master_collapse').addClass("menu-open");
+
+    // Menu Item Active Method
+    $('#menu_master').addClass("active");
+
+    // Menu Item Extract Collapse
+    $('#menu_master_subcategory').addClass("active");
+}
+
+function menu_master_brand() {
+    // Menu Item Active Method
+    $('#menu_master_collapse').addClass("menu-open");
+
+    // Menu Item Active Method
+    $('#menu_master').addClass("active");
+
+    // Menu Item Extract Collapse
+    $('#menu_master_brand').addClass("active");
+}
+
+function menu_product() {
+    // Menu Item Active Method
+    $('#menu_product').addClass("active");
+}
+
+function cryptoEncrypt(inputStr) {
+    var key = CryptoJS.enc.Utf8.parse('8945603788714414');
+    var iv = CryptoJS.enc.Utf8.parse('8945603788714414');
+    var encrypted_utf = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(inputStr), key,
+        {
+            keySize: 128 / 8,
+            iv: iv,
+            mode: CryptoJS.mode.CBC,
+            padding: CryptoJS.pad.Pkcs7
+        }).toString();
+    return encrypted_utf;
+}
+
+function cryptoDecrypt(inputBytes) {
+    var key = CryptoJS.enc.Utf8.parse('8945603788714414');
+    var iv = CryptoJS.enc.Utf8.parse('8945603788714414');
+    var decrypt_utf = CryptoJS.AES.decrypt(inputBytes, key,
+        {
+            keySize: 128 / 8,
+            iv: iv,
+            mode: CryptoJS.mode.CBC,
+            padding: CryptoJS.pad.Pkcs7
+        });
+    return decrypt_utf.toString(CryptoJS.enc.Utf8);
+}
+
 function numberWithCommas(x) {
     if (x === null || x === undefined) {
         return '0';
