@@ -1,0 +1,58 @@
+﻿@page
+@model ProductCatalog.Areas.Master.Pages.Brands.DeleteModel
+@{
+    ViewBag.Title = "Brand";
+    ViewBag.pageTitle = "Brands";
+}
+
+<div class="row d-flex justify-content-center">
+    <div class="col-xl-5 col-lg-6 col-md-7 col-sm-10">
+        <div class="card">
+            <div class="card-header bg-light">
+                <div class="card-title text-danger">
+                    <h5 class="mb-0">Delete Brand</h5>
+                </div>
+            </div>
+            <div class="card-body">
+                <form id="brandForm" method="post">
+                    <div id="checkBrand" class="alert alert-danger">
+                        <span>You can't delete this brand because it was already created in product.</span>
+                    </div>
+                    <p>Are you sure want to delete this <b>@Model.Brand!.BrandName</b> ?</p>
+                    <input type="hidden" asp-for="Brand!.BrandId" />
+                    <input type="hidden" asp-for="Brand!.BrandName" />
+                    <div class="form-group">
+                        <input id="btndelete" type="submit" value="Delete" class="btn btn-danger" />
+                        <a class="btn btn-secondary" asp-page="./Index" asp-area="Master">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<partial name="_Admin_Vendor_Scripts" />
+
+<script src="~/lib/crypto-js/crypto-js.min.js"></script>
+<script src="~/lib/crypto-js/aes.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        menu_master_brand();
+
+        var bid = (new URL(location.href)).searchParams.get('id');
+        var decrypt_bid = cryptoDecrypt(decodeURIComponent(bid));
+        var url = '@Url.Content("~/")' + "api/master/brand/" + decrypt_bid;
+        $.getJSON(url, function (data) {
+            var data = data["data"];
+            console.log(data);
+            if (data !== null) {
+                $("#checkBrand").show();
+                document.getElementById('btndelete').disabled = true;
+            }
+            else {
+                $("#checkBrand").hide();
+                document.getElementById('btndelete').disabled = false;
+            }
+        });
+    })
+</script>

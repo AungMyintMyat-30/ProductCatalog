@@ -1,0 +1,66 @@
+﻿@page
+@model ProductCatalog.Areas.Master.Pages.Brands.EditModel
+@{
+    ViewBag.Title = "Brand";
+    ViewBag.pageTitle = "Brands";
+}
+
+<div class="row d-flex justify-content-center">
+    <div class="col-xl-5 col-lg-6 col-md-7 col-sm-10">
+        <div class="card">
+            <div class="card-header bg-light">
+                <div class="card-title">
+                    <h5 class="mb-0">Update Brand</h5>
+                </div>
+            </div>
+            <div class="card-body">
+                <form id="brandForm" method="post">
+                    <input asp-for="Brand!.BrandId" hidden />
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label class="control-label">Brand Name</label>
+                        <input asp-for="Brand!.BrandName" class="form-control" placeholder="Enter brand name..." required />
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Update" class="btn btn-info" />
+                        <a class="btn btn-secondary" asp-page="./Index" asp-area="Master">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<partial name="_Admin_Vendor_Scripts" />
+<!-- jquery-validation -->
+<script src="~/plugins/jquery-validation/jquery.validate.min.js"></script>
+<script src="~/plugins/jquery-validation/additional-methods.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        menu_master_brand();
+
+        $('#brandForm').validate({
+            rules: {
+                'Brand.BrandName': {
+                    required: true,
+                },
+            },
+            messages: {
+                'Brand.BrandName': {
+                    required: "Please enter a brand name",
+                }
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
+        });
+    })
+</script>
