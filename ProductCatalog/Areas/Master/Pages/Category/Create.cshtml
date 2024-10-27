@@ -1,0 +1,35 @@
+﻿@page
+@model ProductCatalog.Areas.Master.Pages.Category.CreateModel
+@{
+    ViewBag.Title = "Category";
+    ViewBag.pageTitle = "Categories";
+}
+
+<div class="row d-flex justify-content-center">
+    <div class="col-xl-5 col-lg-6 col-md-7 col-sm-10">
+        <div class="card">
+            <div class="card-header bg-light">
+                <div class="card-title">
+                    <h5 class="mb-0">Create New Category</h5>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label class="control-label">Category Name</label>
+                    <input class="form-control" placeholder="Enter category name..." required />
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                    <a class="btn btn-secondary" asp-page="./Index" asp-area="Admin">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<partial name="_Admin_Vendor_Scripts" />
+
+<script>
+    $(document).ready(function () {
+        menu_master_category();
+    })
+</script>
