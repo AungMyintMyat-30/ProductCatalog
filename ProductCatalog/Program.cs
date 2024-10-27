@@ -1,16 +1,21 @@
 using Microsoft.EntityFrameworkCore;
 using ProductCatalogInfrastructure.Data;
+using Microsoft.Extensions.Logging;
 using System.Configuration;
+using ProductCatalog;
+using ProductCatalog.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-//builder.Services.AddDbContext<ProductCatalogContext>(options =>
-//    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbAndIdentityConfig(builder.Configuration);
+
+// Core Service Config
+builder.Services.AddCoreScopedConfig();
+
+builder.Services.AddMiscConfig();
 
 var app = builder.Build();
 
@@ -23,6 +28,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.MapControllers();
 app.UseStaticFiles();
 
 app.UseRouting();
