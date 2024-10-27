@@ -13,12 +13,12 @@ namespace ProductCatalog.Repositories
             _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public async Task<List<Category>> GetAllcategory()
+        public async Task<List<Category>> GetAllCategory()
         {
             using var connection = new SqlConnection(_connectionString);
             try
             {
-                var result= await connection.QueryAsync<Category>("SELECT * FROM Category");
+                var result = await connection.QueryAsync<Category>("SELECT * FROM Category WHERE DeletedDate IS NULL");
                 return result.ToList();
             }
             catch (Exception ex)
@@ -41,13 +41,55 @@ namespace ProductCatalog.Repositories
             }
         }
 
-        public async Task<List<SubCategory>> CheckCategory(int id)
+        public async Task<Category> GetCategoryById(string id)
         {
             using var connection = new SqlConnection(_connectionString);
             try
             {
-                var result = await connection.QueryAsync<SubCategory>("SELECT * FROM SubCategory WHERE CatId = @Id", new { Id = id });
-                return result.ToList();
+                var result = await connection.QueryFirstOrDefaultAsync<Category>("SELECT * FROM Category WHERE CatId = @Id", new { Id = id });
+                return result!;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while retrieving categories.", ex);
+            }
+        }
+
+        public async Task<int> UpdateCategory(Category category)
+        {
+            using var connection = new SqlConnection(_connectionString);
+            try
+            {
+                var result = await connection.ExecuteAsync("UPDATE Category SET CatName=@CatName,UpdatedDate=@UpdatedDate,UpdatedUser=@UpdatedUser WHERE CatId=@CatId", category);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while retrieving category.", ex);
+            }
+        }
+
+        public async Task<SubCategory> CheckCategoryById(string id)
+        {
+            using var connection = new SqlConnection(_connectionString);
+            try
+            {
+                var result = await connection.QueryFirstOrDefaultAsync<SubCategory>("SELECT * FROM SubCategory WHERE CatId = @Id", new { Id = id });
+                return result!;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while retrieving categories.", ex);
+            }
+        }
+
+        public async Task<int> DeleteCategory(Category category)
+        {
+            using var connection = new SqlConnection(_connectionString);
+            try
+            {
+                var result = await connection.ExecuteAsync("UPDATE Category SET DeletedDate=@DeletedDate,DeletedUser=@DeletedUser WHERE CatId=@CatId", category);
+                return result!;
             }
             catch (Exception ex)
             {
