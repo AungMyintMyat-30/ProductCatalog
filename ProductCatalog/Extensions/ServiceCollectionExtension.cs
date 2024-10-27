@@ -16,6 +16,9 @@ namespace ProductCatalog.Extensions
             _ = services.AddScoped<IRandomizer, Randomizer>();
             _ = services.AddScoped<ICryptography, Cryptography>();
             _ = services.AddScoped<CategoryRepo>();
+            _ = services.AddScoped<SubCategoryRepo>();
+            _ = services.AddScoped<BrandRepo>();
+            _ = services.AddScoped<ProductRepo>();
 
             return services;
         }
