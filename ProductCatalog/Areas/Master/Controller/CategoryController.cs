@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using NuGet.Protocol.Core.Types;
+﻿using Microsoft.AspNetCore.Mvc;
 using ProductCatalog.Model;
 using ProductCatalog.Repositories;
 using ProductCatalogCore.Entities;
@@ -22,7 +19,7 @@ namespace ProductCatalog.Areas.Master.Controller
         [HttpGet]
         public async Task<ActionResult<Category>> GetCategoriesAsync()
         {
-            List<Category> category = await _repository.GetAllcategory();
+            List<Category> category = await _repository.GetAllCategory();
             return Ok(new APIRequestModel()
             {
                 Meta = new { total_count = category.Count },
@@ -33,32 +30,11 @@ namespace ProductCatalog.Areas.Master.Controller
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<SubCategory>> CheckCategoriesAsync(int id)
+        public async Task<ActionResult<SubCategory>> CheckCategoryByIdAsync(string id)
         {
-            List<SubCategory> category = await _repository.CheckCategory(id);
+            SubCategory category = await _repository.CheckCategoryById(id);
             return Ok(new APIRequestModel()
             {
-                Meta = new { total_count = category.Count },
-                Data = category,
-                Errors = null,
-                Links = null
-            });
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> AddCategoryAsync(Category category)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            category.CreatedDate = DateTime.Now;
-            await _repository.AddCategory(category); // Ensure AddCategoryAsync method is async
-
-            return Ok(new APIRequestModel()
-            {
-                Meta = "Category added successfully",
                 Data = category,
                 Errors = null,
                 Links = null
