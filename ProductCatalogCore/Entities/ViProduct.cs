@@ -27,10 +27,20 @@ public partial class ViProduct
     [StringLength(50)]
     public string CatName { get; set; } = null!;
 
+    public long BrandId { get; set; }
+
+    [StringLength(100)]
+    public string BrandName { get; set; } = null!;
+
+    public double? Price { get; set; }
+
     public string? Description { get; set; }
 
     [StringLength(100)]
     public string? ImgUrl { get; set; }
+
+    [Column(TypeName = "datetime")]
+    public DateTime? CreatedDate { get; set; }
 
     [StringLength(256)]
     public string? CreatedUser { get; set; }

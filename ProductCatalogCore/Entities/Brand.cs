@@ -6,25 +6,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ProductCatalogCore.Entities;
 
-[Table("Supplier")]
-public partial class Supplier
+[Table("Brand")]
+public partial class Brand
 {
     [Key]
-    public long SupId { get; set; }
+    public long BrandId { get; set; }
 
-    [StringLength(256)]
-    public string SupName { get; set; } = null!;
-
-    [StringLength(50)]
-    public string PrimaryPhone { get; set; } = null!;
-
-    [StringLength(50)]
-    public string? SecondaryPhone { get; set; }
-
-    [StringLength(500)]
-    public string? Address { get; set; }
-
-    public double? CreditAmount { get; set; }
+    [StringLength(100)]
+    public string BrandName { get; set; } = null!;
 
     [Column(TypeName = "datetime")]
     public DateTime? CreatedDate { get; set; }
@@ -43,6 +32,4 @@ public partial class Supplier
 
     [StringLength(256)]
     public string? DeletedUser { get; set; }
-
-    public string? Remark { get; set; }
 }

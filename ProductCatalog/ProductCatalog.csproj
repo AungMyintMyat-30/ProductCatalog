@@ -26,4 +26,11 @@
     <ProjectReference Include="..\ProductCatalogInfrastructure\ProductCatalogInfrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\lib\crypto-js\aes.js" />
+    <None Include="wwwroot\lib\crypto-js\aes.min.js" />
+    <None Include="wwwroot\lib\crypto-js\crypto-js.js" />
+    <None Include="wwwroot\lib\crypto-js\crypto-js.min.js" />
+  </ItemGroup>
+
 </Project>

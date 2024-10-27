@@ -6,14 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ProductCatalogCore.Entities;
 
-[PrimaryKey("SubId", "CatId")]
 [Table("SubCategory")]
 public partial class SubCategory
 {
     [Key]
     public long SubId { get; set; }
 
-    [Key]
     public long CatId { get; set; }
 
     [StringLength(50)]
