@@ -7,10 +7,12 @@ namespace ProductCatalog.Repositories
     public class BrandRepo
     {
         private readonly string? _connectionString;
+        private readonly ILogger<BrandRepo> _logger;
 
-        public BrandRepo(IConfiguration configuration)
+        public BrandRepo(IConfiguration configuration, ILogger<BrandRepo> logger)
         {
             _connectionString = configuration.GetConnectionString("DefaultConnection");
+            _logger = logger;
         }
 
         public async Task<List<Brand>> GetAllBrand()
@@ -23,6 +25,7 @@ namespace ProductCatalog.Repositories
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 throw new Exception("An error occurred while retrieving brands.", ex);
             }
         }
@@ -37,6 +40,7 @@ namespace ProductCatalog.Repositories
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 throw new Exception("An error occurred while retrieving category.", ex);
             }
         }
@@ -51,6 +55,7 @@ namespace ProductCatalog.Repositories
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 throw new Exception("An error occurred while retrieving brands.", ex);
             }
         }
@@ -65,6 +70,7 @@ namespace ProductCatalog.Repositories
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 throw new Exception("An error occurred while retrieving brands.", ex);
             }
         }
@@ -79,6 +85,7 @@ namespace ProductCatalog.Repositories
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 throw new Exception("An error occurred while retrieving brands.", ex);
             }
         }
@@ -93,6 +100,7 @@ namespace ProductCatalog.Repositories
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 throw new Exception("An error occurred while retrieving brands.", ex);
             }
         }
