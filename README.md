@@ -24,7 +24,7 @@ Prerequisites
 
 Installation Steps
 1. Clone the Repository:
-   <a href="https://github.com/rdvojmoc/DinkToPdf/tree/master/v0.12.4/64%20bit">Repository URL</a>
+   <a href="https://github.com/AungMyintMyat-30/ProductCatalog">Repository URL</a>
 2. Set Up the Database:
    <a href="https://1drv.ms/u/s!AinuagkfRoffgukjOP9e9Ha_rw9Pow?e=CmCvSj">Download</a> Database file from this link.<br>
    The .bak file cannot be restored to earlier versions of SQL Server (e.g., SQL Server 2014, SQL Server 2012).<br>
