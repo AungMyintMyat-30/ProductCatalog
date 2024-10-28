@@ -5,124 +5,130 @@
     ViewBag.PageTitle = "Dashboard";
 }
 
-<div class="row">
-	<div class="col-12">
-		<div class="card">
-			<div class="card-body bg-light">
-				<div class="row">
-					@foreach (var item in Model.Product!)
-					{
-						<div class="col-xxl-3 col-xl-3 col-lg-3 col-md-4 col-sm-6">
-							<div class="container">
-								<div class="card-content" style="display:none">
-									<div class="card">
-										@if(item.ImgUrl == null)
-										{
-											<img class="card-img-top img-fluid" src="~/images/thumbnail.jpg">
-										}
-										else
-										{
-											<img class="card-img-top img-fluid" src="~/@item.ImgUrl">
-										}
-										<div id="card" class="card-body">
-											<h4 class="card-title">@item.CreatedDate!.Value.ToString("dd-MMM-yyyy")</h4>
-											@* <p class="card-text">
-												@item.UserName
-											</p> *@
-										</div>
-										@* <div class="card-footer">
-											<button id="@item.GalleryId" type="button" onclick="DeleteImage(this)" class="btn btn-danger w-100 delete-button"><i class="fa fa-trash"></i>&nbsp;Delete</button>
-										</div> *@
-									</div>
-								</div>
-							</div>
-						</div>
-					}
-				</div>
-				<div class="row">
-					<div class="pagination justify-content-center"></div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
+@* <link href="~/css/datatable-custom.css" rel="stylesheet" /> *@
+@if (Model.Product!.Count > 0)
+{
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-solid">
+                <div class="card-body ">
+                    <div class="row">
+                        @foreach (var item in Model.Product!)
+                        {
+                            <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-4 col-sm-6">
+                                <div class="container">
+                                    <div class="card-content" style="display:none">
+                                        <div class="card card-body pt-2">
+                                            <div class="row">
+                                                <div class="col-7">
+                                                    <h2 class="lead"><b>@item.ProductName</b></h2>
+                                                    <span class="text-muted text-sm d-block"><b>Code: </b>@item.Code </span>
+                                                    <span class="text-muted text-sm d-block"><b>Sub: </b>@item.SubName </span>
+                                                    <span class="text-muted text-sm d-block"><b>Cat: </b>@item.CatName </span>
+                                                    <span class="text-muted text-sm d-block"><b>Brand: </b>@item.BrandName </span>
+                                                    <p class="text-muted text-sm d-block"><b>Desc: </b>@item.Description </p>
+                                                </div>
+                                                <div class="col-5 text-center">
+                                                    @if (item.ImgUrl == null)
+                                                    {
+                                                        <img alt="user-avatar" class="img-circle img-fluid" src="~/images/thumbnail.jpg">
+                                                    }
+                                                    else
+                                                    {
+                                                        <img alt="user-avatar" class="img-circle img-fluid" src="~/@item.ImgUrl">
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="row">
+                        <div class="pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
 <partial name="_Admin_Vendor_Scripts" />
 <script>
-	$(function () {
-		menu_dashboard();
+    $(function () {
+        menu_dashboard();
 
-		function getPageList(totalPages, page, maxLength) {
-			function range(start, end) {
-				return Array.from(Array(end - start + 1), (_, i) => i + start);
-			}
+        function getPageList(totalPages, page, maxLength) {
+            function range(start, end) {
+                return Array.from(Array(end - start + 1), (_, i) => i + start);
+            }
 
-			var sideWidth = maxLength < 9 ? 1 : 2;
-			var leftWidth = (maxLength - sideWidth * 2 - 3) >> 1;
-			var rightWidth = (maxLength - sideWidth * 2 - 3) >> 1;
+            var sideWidth = maxLength < 9 ? 1 : 2;
+            var leftWidth = (maxLength - sideWidth * 2 - 3) >> 1;
+            var rightWidth = (maxLength - sideWidth * 2 - 3) >> 1;
 
-			if (totalPages <= maxLength) {
-				return range(1, totalPages);
-			}
+            if (totalPages <= maxLength) {
+                return range(1, totalPages);
+            }
 
-			if (page <= maxLength - sideWidth - 1 - rightWidth) {
-				return range(1, maxLength - sideWidth - 1).concat(0, range(totalPages - sideWidth + 1, totalPages));
-			}
+            if (page <= maxLength - sideWidth - 1 - rightWidth) {
+                return range(1, maxLength - sideWidth - 1).concat(0, range(totalPages - sideWidth + 1, totalPages));
+            }
 
-			if (page >= totalPages - sideWidth - 1 - rightWidth) {
-				return range(1, sideWidth).concat(0, range(totalPages - sideWidth - 1 - rightWidth - leftWidth, totalPages));
-			}
+            if (page >= totalPages - sideWidth - 1 - rightWidth) {
+                return range(1, sideWidth).concat(0, range(totalPages - sideWidth - 1 - rightWidth - leftWidth, totalPages));
+            }
 
-			return range(1, sideWidth).concat(0, range(page - leftWidth, page + rightWidth), 0, range(totalPages - sideWidth + 1, totalPages));
-		}
+            return range(1, sideWidth).concat(0, range(page - leftWidth, page + rightWidth), 0, range(totalPages - sideWidth + 1, totalPages));
+        }
 
-		$(function () {
-			var numberOfItems = $(".card-content .card").length;
-			var limitPerPage = 8; //How many card items visible per a page
-			var totalPages = Math.ceil(numberOfItems / limitPerPage);
-			var paginationSize = 7; //How many page elements visible in the pagination
-			var currentPage;
+        $(function () {
+            var numberOfItems = $(".card-content .card").length;
+            var limitPerPage = 8; //How many card items visible per a page
+            var totalPages = Math.ceil(numberOfItems / limitPerPage);
+            var paginationSize = 7; //How many page elements visible in the pagination
+            var currentPage;
 
-			function showPage(whichPage) {
-				if (whichPage < 1 || whichPage > totalPages) return false;
+            function showPage(whichPage) {
+                if (whichPage < 1 || whichPage > totalPages) return false;
 
-				currentPage = whichPage;
+                currentPage = whichPage;
 
-				$(".card-content .card").hide().slice((currentPage - 1) * limitPerPage, currentPage * limitPerPage).show();
+                $(".card-content .card").hide().slice((currentPage - 1) * limitPerPage, currentPage * limitPerPage).show();
 
-				$(".pagination li").slice(1, -1).remove();
+                $(".pagination li").slice(1, -1).remove();
 
-				getPageList(totalPages, currentPage, paginationSize).forEach(item => {
-					$("<li>").addClass("page-item").addClass(item ? "current-page" : "dots")
-						.toggleClass("active", item === currentPage).append($("<a>").addClass("page-link")
-							.attr({ href: "javascript:void(0)" }).text(item || "...")).insertBefore(".next-page");
-				});
+                getPageList(totalPages, currentPage, paginationSize).forEach(item => {
+                    $("<li>").addClass("page-item").addClass(item ? "current-page" : "dots")
+                        .toggleClass("active", item === currentPage).append($("<a>").addClass("page-link")
+                            .attr({ href: "javascript:void(0)" }).text(item || "...")).insertBefore(".next-page");
+                });
 
-				$(".previous-page").toggleClass("disable", currentPage === 1);
-				$(".next-page").toggleClass("disable", currentPage === totalPages);
-				return true;
-			}
+                $(".previous-page").toggleClass("disable", currentPage === 1);
+                $(".next-page").toggleClass("disable", currentPage === totalPages);
+                return true;
+            }
 
-			$(".pagination").append(
-				$("<li>").addClass("page-item").addClass("previous-page").append($("<a>").addClass("page-link").attr({ href: "javascript:void(0)" }).text("Prev")),
-				$("<li>").addClass("page-item").addClass("next-page").append($("<a>").addClass("page-link").attr({ href: "javascript:void(0)" }).text("Next"))
-			);
+            $(".pagination").append(
+                $("<li>").addClass("page-item").addClass("previous-page").append($("<a>").addClass("page-link").attr({ href: "javascript:void(0)" }).text("Prev")),
+                $("<li>").addClass("page-item").addClass("next-page").append($("<a>").addClass("page-link").attr({ href: "javascript:void(0)" }).text("Next"))
+            );
 
-			$(".card-content").show();
-			showPage(1);
+            $(".card-content").show();
+            showPage(1);
 
-			$(document).on("click", ".pagination li.current-page:not(.active)", function () {
-				return showPage(+$(this).text());
-			});
+            $(document).on("click", ".pagination li.current-page:not(.active)", function () {
+                return showPage(+$(this).text());
+            });
 
-			$(".next-page").on("click", function () {
-				return showPage(currentPage + 1);
-			});
+            $(".next-page").on("click", function () {
+                return showPage(currentPage + 1);
+            });
 
-			$(".previous-page").on("click", function () {
-				return showPage(currentPage - 1);
-			});
-		});
-	});
+            $(".previous-page").on("click", function () {
+                return showPage(currentPage - 1);
+            });
+        });
+    });
 </script>
