@@ -1,0 +1,218 @@
+﻿@page
+@model ProductCatalog.Areas.ProductManage.Pages.Products.EditModel
+@{
+    ViewBag.Title = "Product";
+    ViewBag.pageTitle = "Products";
+}
+
+<link href="~/admin-lte/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+
+<div class="row d-flex justify-content-center">
+    <div class="col-8">
+        <div class="card">
+            <div class="card-header bg-light border-secondary border-3 border-bottom">
+                <h4 class="card-title pb-0 mb-0">Update Product</h4>
+            </div>
+            <div class="card-body">
+                <form id="productForm" method="post" enctype="multipart/form-data">
+                    <input asp-for="ViProduct!.ProductId" hidden />
+                    <input asp-for="ViProduct!.SubName" value="0" hidden />
+                    <input asp-for="ViProduct!.CatName" value="0" hidden />
+                    <input asp-for="ViProduct!.BrandName" value="0" hidden />
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="row">
+                        <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                            <div class="form-group mb-2">
+                                <label class="control-label">Category</label>
+                                <select id="DDLCategory" asp-for="ViProduct!.CatId" class="form-control form-select select2" onchange="DDLCategory_OnChange()" required></select>
+                            </div>
+                        </div>
+                        <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                            <div class="form-group mb-2">
+                                <label class="control-label">Sub Category</label>
+                                <select id="DDLSubCategory" asp-for="ViProduct!.SubId" class="form-control form-select select2" required></select>
+                            </div>
+                        </div>
+                        <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                            <div class="form-group">
+                                <label class="control-label">Brand</label>
+                                <select id="DDLBrand" asp-for="ViProduct!.BrandId" class="form-control form-select select2" required></select>
+                            </div>
+                        </div>
+                        <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                            <div class="form-group">
+                                <label class="control-label">Code</label>
+                                <input asp-for="ViProduct!.Code" class="form-control" placeholder="Enter code..." required />
+                            </div>
+                        </div>
+                        <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                            <div class="form-group">
+                                <label class="control-label">Product Name</label>
+                                <input asp-for="ViProduct!.ProductName" class="form-control" placeholder="Enter product name..." required />
+                            </div>
+                        </div>
+                        <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                            <div class="form-group">
+                                <label class="control-label">Price</label>
+                                <input asp-for="ViProduct!.Price" class="form-control" type="number" min="0" placeholder="Enter price..." required />
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group mb-3">
+                                <div class="form-group">
+                                    <label for="exampleInputFile">Image</label>
+                                    <div class="input-group">
+                                        <div class="custom-file">
+                                            <input class="custom-file-input" type="file" asp-for="ImageFile" id="fileImage">
+                                            <label class="custom-file-label" id="inputLabel" for="exampleInputFile">Choose Image</label>
+                                        </div>
+                                        <button id="btnRemove" type="button" class="btn btn-danger" style="border-radius:0px 3px 3px 0px" onclick="RemoveFile()">
+                                            Remove
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="control-label">Description</label>
+                                <textarea asp-for="ViProduct!.Description" class="form-control" rows="3" placeholder="Enter Description..." required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Update" class="btn btn-info" />
+                        <a class="btn btn-secondary" asp-page="./Index" asp-area="ProductManage">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<partial name="_Admin_Vendor_Scripts" />
+
+<script src="~/admin-lte/libs/select2/js/select2.min.js"></script>
+<!-- bs-custom-file-input -->
+<script src="~/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+<!-- jquery-validation -->
+<script src="~/plugins/jquery-validation/jquery.validate.min.js"></script>
+<script src="~/plugins/jquery-validation/additional-methods.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        menu_product();
+        bsCustomFileInput.init();
+
+        $('#DDLSubCategory').html("<option selected disabled value=''>--Choose Sub Category --</option>");
+
+        //Category
+        $.getJSON('@Url.Content("~/")' + "api/master/category", function (data) {
+            var jList = data["data"];
+            var items = '';
+            items += "<option selected value=''>-- Choose Category --</option>";
+            $('DDLCategory').empty();
+            $.each(jList, function (i, cat) {
+                items += "<option class='select2-item' value='" + cat.catId + "'>" + cat.catName + "</option>";
+            });
+            $('#DDLCategory').html(items);
+
+            var catId = "@Model.ViProduct!.CatId";
+            $("#DDLCategory").val(catId).change();
+        });
+
+        //Brand
+        $.getJSON('@Url.Content("~/")' + "api/master/brand", function (data) {
+            var jList = data["data"];
+            var items = '';
+            items += "<option selected value=''>-- Choose Brand --</option>";
+            $('DDLBrand').empty();
+            $.each(jList, function (i, brand) {
+                items += "<option class='select2-item' value='" + brand.brandId + "'>" + brand.brandName + "</option>";
+            });
+            $('#DDLBrand').html(items);
+
+            var bId = "@Model.ViProduct!.BrandId";
+            $("#DDLBrand").val(bId).change();
+        });
+
+        $('#productForm').validate({
+            rules: {
+                'ViProduct.SubId': {
+                    required: true,
+                },
+                'ViProduct.CatId': {
+                    required: true,
+                },
+                'ViProduct.BrandId': {
+                    required: true,
+                },
+                'ViProduct.Code': {
+                    required: true,
+                },
+                'ViProduct.ProductName': {
+                    required: true,
+                },
+                'SubCategory.Price': {
+                    required: true,
+                }
+            },
+            messages: {
+                'ViProduct.SubId': {
+                    required: "Please choose a subcategory",
+                },
+                'ViProduct.CatId': {
+                    required: "Please choose a category",
+                },
+                'ViProduct.BrandId': {
+                    required: "Please choose a brand",
+                },
+                'ViProduct.Code': {
+                    required: "Please enter a code",
+                },
+                'ViProduct.ProductName': {
+                    required: "Please enter a product name",
+                },
+                'ViProduct.Price': {
+                    required: "Please set the price",
+                }
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
+        });
+    })
+
+    function DDLCategory_OnChange() {
+        var ddlsource = document.getElementById("DDLCategory");
+        var selectedid = ddlsource.options[ddlsource.selectedIndex].value;
+
+        $.getJSON('@Url.Content("~/")' + "api/master/subcategory/by-category/" + selectedid, function (data) {
+            var jList = data["data"];
+            var items = '';
+            items += "<option selected value=''>-- Choose Category --</option>";
+            $('DDLSubCategory').empty();
+            $.each(jList, function (i, sub) {
+                items += "<option class='select2-item' value='" + sub.subId + "'>" + sub.subName + "</option>";
+            });
+            $('#DDLSubCategory').html(items);
+            var catId = "@Model.ViProduct!.CatId";
+            if (selectedid == catId) {
+                $("#DDLSubCategory").val("@Model.ViProduct!.SubId").change();
+            }
+        });
+    }
+
+    function RemoveFile() {
+        document.getElementById('fileImage').value = '';
+        document.getElementById('inputLabel').innerHTML = 'Choose Image'
+    }
+</script>
