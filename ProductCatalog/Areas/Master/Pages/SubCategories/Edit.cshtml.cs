@@ -26,7 +26,7 @@ namespace ProductCatalog.Areas.Master.Pages.SubCategories
                 return NotFound();
             }
 
-            ViSubCategory = await _repository!.GetSubCategoryById(_cryptography.DecryptAES(id));
+            ViSubCategory = await _repository!.GetSubCategoryBySubId(_cryptography.DecryptAES(id));
 
             if (ViSubCategory == null)
             {
