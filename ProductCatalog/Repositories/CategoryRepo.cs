@@ -7,10 +7,12 @@ namespace ProductCatalog.Repositories
     public class CategoryRepo
     {
         private readonly string? _connectionString;
+        private readonly ILogger<CategoryRepo> _logger;
 
-        public CategoryRepo(IConfiguration configuration)
+        public CategoryRepo(IConfiguration configuration, ILogger<CategoryRepo> logger)
         {
             _connectionString = configuration.GetConnectionString("DefaultConnection");
+            _logger = logger;
         }
 
         public async Task<List<Category>> GetAllCategory()
@@ -23,6 +25,7 @@ namespace ProductCatalog.Repositories
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 throw new Exception("An error occurred while retrieving categories.", ex);
             }
         }
@@ -37,6 +40,7 @@ namespace ProductCatalog.Repositories
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 throw new Exception("An error occurred while retrieving category.", ex);
             }
         }
@@ -51,6 +55,7 @@ namespace ProductCatalog.Repositories
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 throw new Exception("An error occurred while retrieving categories.", ex);
             }
         }
@@ -65,6 +70,7 @@ namespace ProductCatalog.Repositories
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 throw new Exception("An error occurred while retrieving category.", ex);
             }
         }
@@ -79,6 +85,7 @@ namespace ProductCatalog.Repositories
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 throw new Exception("An error occurred while retrieving categories.", ex);
             }
         }
@@ -93,6 +100,7 @@ namespace ProductCatalog.Repositories
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 throw new Exception("An error occurred while retrieving categories.", ex);
             }
         }
