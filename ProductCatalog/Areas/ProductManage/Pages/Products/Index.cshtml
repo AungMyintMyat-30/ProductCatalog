@@ -177,13 +177,13 @@
         });
 
         $('#btnCreate').click(function () {
-            window.location.href = 'subcategories/create';
+            window.location.href = 'products/create';
         });
 
         $('#btnEdit').click(function () {
             var selectedItem = table.rows({ selected: true }).data()[0];
             if (selectedItem != null) {
-                window.location.href = 'subcategories/edit?id=' + encodeURIComponent(cryptoEncrypt(selectedItem.subId));
+                window.location.href = 'products/edit?id=' + encodeURIComponent(cryptoEncrypt(selectedItem.productId));
             }
         });
 
