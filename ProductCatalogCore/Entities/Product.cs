@@ -10,7 +10,8 @@ namespace ProductCatalogCore.Entities;
 public partial class Product
 {
     [Key]
-    public long ProductId { get; set; }
+    [StringLength(20)]
+    public string ProductId { get; set; } = null!;
 
     public long SubId { get; set; }
 

@@ -9,7 +9,8 @@ namespace ProductCatalogCore.Entities;
 [Keyless]
 public partial class ViProduct
 {
-    public long ProductId { get; set; }
+    [StringLength(20)]
+    public string ProductId { get; set; } = null!;
 
     [StringLength(50)]
     public string Code { get; set; } = null!;
