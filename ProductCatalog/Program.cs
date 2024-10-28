@@ -1,9 +1,5 @@
-using Microsoft.EntityFrameworkCore;
-using ProductCatalogInfrastructure.Data;
-using Microsoft.Extensions.Logging;
-using System.Configuration;
-using ProductCatalog;
 using ProductCatalog.Extensions;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +13,17 @@ builder.Services.AddCoreScopedConfig();
 
 builder.Services.AddMiscConfig();
 
+// Logger
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .CreateLogger();
+
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(Log.Logger);
+
+builder.Host.UseSerilog();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -26,6 +33,9 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+// Logging
+app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 app.MapControllers();

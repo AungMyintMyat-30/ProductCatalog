@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ProductCatalog.Repositories;
 using ProductCatalogCore.Interfaces;
 using ProductCatalogInfrastructure.Data;
+using ProductCatalogInfrastructure.Logging;
 using ProductCatalogInfrastructure.Services;
 
 namespace ProductCatalog.Extensions
@@ -12,9 +12,11 @@ namespace ProductCatalog.Extensions
     {
         public static IServiceCollection AddCoreScopedConfig(this IServiceCollection services)
         {
+            services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
             // Add Helper
             _ = services.AddScoped<IRandomizer, Randomizer>();
             _ = services.AddScoped<ICryptography, Cryptography>();
+            _ = services.AddScoped<IImageService, ImageService>();
             _ = services.AddScoped<CategoryRepo>();
             _ = services.AddScoped<SubCategoryRepo>();
             _ = services.AddScoped<BrandRepo>();
