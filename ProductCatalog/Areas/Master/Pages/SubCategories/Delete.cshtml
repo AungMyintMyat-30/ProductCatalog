@@ -43,7 +43,7 @@
 
         var cid = (new URL(location.href)).searchParams.get('id');
         var decrypt_cid = cryptoDecrypt(decodeURIComponent(cid));
-        var url = '@Url.Content("~/")' + "api/master/subcategory/" + decrypt_cid;
+        var url = '@Url.Content("~/")' + "api/master/subcategory/check-subcategory/" + decrypt_cid;
         $.getJSON(url, function (data) {
             var data = data["data"];
             console.log(data);
