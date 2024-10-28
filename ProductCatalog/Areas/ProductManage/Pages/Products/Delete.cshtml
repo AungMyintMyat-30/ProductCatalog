@@ -1,0 +1,54 @@
+﻿@page
+@model ProductCatalog.Areas.ProductManage.Pages.Products.DeleteModel
+@{
+    ViewBag.Title = "Product";
+    ViewBag.pageTitle = "Products";
+}
+
+<div class="row d-flex justify-content-center">
+    <div class="col-xl-5 col-lg-6 col-md-7 col-sm-10">
+        <div class="card">
+            <div class="card-header bg-light">
+                <div class="card-title text-danger">
+                    <h5 class="mb-0">Delete Product</h5>
+                </div>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <input type="hidden" asp-for="ViProduct!.ProductId" />
+                    <input type="hidden" asp-for="ViProduct!.Code" />
+                    <input type="hidden" asp-for="ViProduct!.ProductName" />
+                    <input type="hidden" asp-for="ViProduct!.SubId" />
+                    <input type="hidden" asp-for="ViProduct!.SubName" />
+                    <input type="hidden" asp-for="ViProduct!.CatId" />
+                    <input type="hidden" asp-for="ViProduct!.CatName" />
+                    <input type="hidden" asp-for="ViProduct!.BrandId" />
+                    <input type="hidden" asp-for="ViProduct!.BrandName" />
+                    <div class="card card-body d-flex justify-content-center align-items-center">
+                        @if (Model.ViProduct!.ImgUrl == null)
+                        {
+                            <img class="card-img-top img-fluid w-50 h-auto" src="~/images/thumbnail.jpg">
+                        }
+                        else
+                        {
+                            <img class="card-img-top img-fluid w-50 h-auto" src="~/@Model.ViProduct!.ImgUrl">
+                        }
+                    </div>
+                    <h5>@Model.ViProduct!.ProductName</h5>
+                    <p><span class="text-muted">Code:</span>&nbsp;@Model.ViProduct!.Code</p>
+                    <div class="form-group">
+                        <input id="btndelete" type="submit" value="Delete" class="btn btn-danger" />
+                        <a class="btn btn-secondary" asp-page="./Index" asp-area="ProductManage">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<partial name="_Admin_Vendor_Scripts" />
+
+<script>
+    $(document).ready(function () {
+        menu_product();
+    })
+</script>
