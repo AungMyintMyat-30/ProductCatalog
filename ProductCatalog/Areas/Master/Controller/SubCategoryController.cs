@@ -17,7 +17,7 @@ namespace ProductCatalog.Areas.Master.Controller
         }
 
         [HttpGet]
-        public async Task<ActionResult<ViSubCategory>> GetCategoriesAsync()
+        public async Task<ActionResult<ViSubCategory>> GetSubCategoriesAsync()
         {
             List<ViSubCategory> subcategory = await _repository.GetAllSubCategory();
             return Ok(new APIRequestModel()
@@ -29,13 +29,25 @@ namespace ProductCatalog.Areas.Master.Controller
             });
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("check-subcategory/{id}")]
         public async Task<ActionResult<Product>> CheckSubCategoryByIdAsync(string id)
         {
             Product product = await _repository.CheckSubCategoryById(id);
             return Ok(new APIRequestModel()
             {
                 Data = product,
+                Errors = null,
+                Links = null
+            });
+        }
+
+        [HttpGet("by-category/{id}")]
+        public async Task<ActionResult<ViSubCategory>> GetSubCategoryByCatIdAsync(string id)
+        {
+            List<ViSubCategory> subCat = await _repository.GetSubCategoryByCatId(id);
+            return Ok(new APIRequestModel()
+            {
+                Data = subCat,
                 Errors = null,
                 Links = null
             });
