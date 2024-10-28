@@ -26,9 +26,6 @@
                     <div class="form-group mb-2">
                         <label class="control-label">Category</label>
                         <select id="DDLCategory" asp-for="SubCategory!.CatId" class="form-control form-select select2" required></select>
-                        @* <div class="invalid-feedback">
-                            Please choose category
-                        </div> *@
                     </div>
                     <div class="form-group">
                         <input type="submit" value="Create" class="btn btn-primary" />
@@ -50,7 +47,6 @@
     $(document).ready(function () {
         menu_master_subcategory();
 
-        // State API Requset
         var url = '@Url.Content("~/")' + "api/master/category";
         $.getJSON(url, function (data) {
             var jList = data["data"];
