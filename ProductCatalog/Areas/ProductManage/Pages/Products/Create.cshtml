@@ -76,13 +76,13 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label class="control-label">Description</label>
-                                <textarea asp-for="ViProduct!.Description" class="form-control" rows="3" placeholder="Enter Description..." required></textarea>
+                                <textarea asp-for="ViProduct!.Description" class="form-control" rows="3" placeholder="Enter Description..."></textarea>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <input type="submit" value="Create" class="btn btn-primary" />
-                        <a class="btn btn-secondary" asp-page="./Index" asp-area="Master">Cancel</a>
+                        <a class="btn btn-secondary" asp-page="./Index" asp-area="ProductManage">Cancel</a>
                     </div>
                 </form>
             </div>
@@ -132,19 +132,43 @@
 
         $('#productForm').validate({
             rules: {
-                'SubCategory.SubName': {
+                'ViProduct.SubId': {
                     required: true,
                 },
-                'SubCategory.CatId': {
+                'ViProduct.CatId': {
+                    required: true,
+                },
+                'ViProduct.BrandId': {
+                    required: true,
+                },
+                'ViProduct.Code': {
+                    required: true,
+                },
+                'ViProduct.ProductName': {
+                    required: true,
+                },
+                'SubCategory.Price': {
                     required: true,
                 }
             },
             messages: {
-                'SubCategory.SubName': {
-                    required: "Please enter a subcategory name",
+                'ViProduct.SubId': {
+                    required: "Please choose a subcategory",
                 },
-                'SubCategory.CatId': {
+                'ViProduct.CatId': {
                     required: "Please choose a category",
+                },
+                'ViProduct.BrandId': {
+                    required: "Please choose a brand",
+                },
+                'ViProduct.Code': {
+                    required: "Please enter a code",
+                },
+                'ViProduct.ProductName': {
+                    required: "Please enter a product name",
+                },
+                'ViProduct.Price': {
+                    required: "Please set the price",
                 }
             },
             errorElement: 'span',
