@@ -29,7 +29,7 @@
                         <span id="LblSearchCount" class="badge bg-light px-2 py-2 search-count"></span>
                     </div>
                 </div>
-                <table id="example" class="table table-bordereless table-striped table-hover" cellspacing="0">
+                <table id="example" class="table dt-responsive nowrap w-100">
                     <thead class="bg-light align-center">
                         <tr>
                             <th class="text-center">#</th>
@@ -53,8 +53,9 @@
     $(document).ready(function () {
         menu_master_category();
         var table = $('#example').DataTable({
-            autoWidth: false,
-            responsive: true,
+            retrieve: true,
+            scrollX: true,
+            responsive: false,
             ajax: function (data, callback, settings) {
                 $.ajax({
                     url: "@Url.Content("~/")" + "api/master/category",
