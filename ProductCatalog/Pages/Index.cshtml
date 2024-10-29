@@ -5,7 +5,6 @@
     ViewBag.PageTitle = "Dashboard";
 }
 
-@* <link href="~/css/datatable-custom.css" rel="stylesheet" /> *@
 @if (Model.Product!.Count > 0)
 {
     <div class="row">
@@ -22,6 +21,7 @@
                                             <div class="row">
                                                 <div class="col-7">
                                                     <h2 class="lead"><b>@item.ProductName</b></h2>
+                                                    <span class="text-muted text-sm d-block"><b>Price: </b>@item.Price</span>
                                                     <span class="text-muted text-sm d-block"><b>Code: </b>@item.Code </span>
                                                     <span class="text-muted text-sm d-block"><b>Sub: </b>@item.SubName </span>
                                                     <span class="text-muted text-sm d-block"><b>Cat: </b>@item.CatName </span>
