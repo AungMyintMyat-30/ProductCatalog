@@ -33,11 +33,6 @@ namespace ProductCatalog.Extensions
             // Identity DbContext -- SQL Server Connection
             _ = services.AddDbContext<ApplicationDbContext>(opt => opt.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
-            // For Identity User and Role Purpose
-            _ = services.AddIdentity<IdentityUser, IdentityRole>()
-                    .AddEntityFrameworkStores<ApplicationDbContext>()
-                    .AddDefaultTokenProviders();
-
             return services;
         }
 
