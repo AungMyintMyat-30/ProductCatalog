@@ -34,15 +34,15 @@ namespace ProductCatalogInfrastructure.Services
             byte[] encrypted;
             // Create an RijndaelManaged object
             // with the specified key and IV.
-            using RijndaelManaged rijAlg = new();
+            using var aesAlg = Aes.Create();
             //Settings
-            rijAlg.Mode = CipherMode.CBC;
-            rijAlg.Padding = PaddingMode.PKCS7;
-            rijAlg.FeedbackSize = 128;
-            rijAlg.Key = keybytes;
-            rijAlg.IV = iv;
+            aesAlg.Mode = CipherMode.CBC;
+            aesAlg.Padding = PaddingMode.PKCS7;
+            aesAlg.FeedbackSize = 128;
+            aesAlg.Key = keybytes;
+            aesAlg.IV = iv;
             //// Create a encryptor to perform the stream transform.
-            ICryptoTransform encryptor = rijAlg.CreateEncryptor(rijAlg.Key, rijAlg.IV);
+            ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
 
             using (MemoryStream msEncrypt = new())
             {
@@ -84,15 +84,15 @@ namespace ProductCatalogInfrastructure.Services
             // the decrypted text.
             // Create an RijndaelManaged object
             // with the specified key and IV.
-            using RijndaelManaged rijAlg = new();
+            using var aesAlg = Aes.Create();
             //Settings
-            rijAlg.Mode = CipherMode.CBC;
-            rijAlg.Padding = PaddingMode.PKCS7;
-            rijAlg.FeedbackSize = 128;
-            rijAlg.Key = keybytes;
-            rijAlg.IV = iv;
+            aesAlg.Mode = CipherMode.CBC;
+            aesAlg.Padding = PaddingMode.PKCS7;
+            aesAlg.FeedbackSize = 128;
+            aesAlg.Key = keybytes;
+            aesAlg.IV = iv;
             // Create a decrytor to perform the stream transform.
-            ICryptoTransform decryptor = rijAlg.CreateDecryptor(rijAlg.Key, rijAlg.IV);
+            ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
             // Create the streams used for decryption.
             using MemoryStream msDecrypt = new(encrypted);
             using CryptoStream csDecrypt = new(msDecrypt, decryptor, CryptoStreamMode.Read);
@@ -124,15 +124,15 @@ namespace ProductCatalogInfrastructure.Services
             byte[] encrypted;
             // Create an RijndaelManaged object
             // with the specified key and IV.
-            using RijndaelManaged rijAlg = new();
+            using var aesAlg = Aes.Create();
             //Settings
-            rijAlg.Mode = CipherMode.CBC;
-            rijAlg.Padding = PaddingMode.PKCS7;
-            rijAlg.FeedbackSize = 128;
-            rijAlg.Key = keybytes;
-            rijAlg.IV = iv;
+            aesAlg.Mode = CipherMode.CBC;
+            aesAlg.Padding = PaddingMode.PKCS7;
+            aesAlg.FeedbackSize = 128;
+            aesAlg.Key = keybytes;
+            aesAlg.IV = iv;
             //// Create a encryptor to perform the stream transform.
-            ICryptoTransform encryptor = rijAlg.CreateEncryptor(rijAlg.Key, rijAlg.IV);
+            ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
 
             using (MemoryStream msEncrypt = new())
             {
@@ -174,15 +174,15 @@ namespace ProductCatalogInfrastructure.Services
             // the decrypted text.
             // Create an RijndaelManaged object
             // with the specified key and IV.
-            using RijndaelManaged rijAlg = new();
+            using var aesAlg = Aes.Create();
             //Settings
-            rijAlg.Mode = CipherMode.CBC;
-            rijAlg.Padding = PaddingMode.PKCS7;
-            rijAlg.FeedbackSize = 128;
-            rijAlg.Key = keybytes;
-            rijAlg.IV = iv;
+            aesAlg.Mode = CipherMode.CBC;
+            aesAlg.Padding = PaddingMode.PKCS7;
+            aesAlg.FeedbackSize = 128;
+            aesAlg.Key = keybytes;
+            aesAlg.IV = iv;
             // Create a decrytor to perform the stream transform.
-            ICryptoTransform decryptor = rijAlg.CreateDecryptor(rijAlg.Key, rijAlg.IV);
+            ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
             // Create the streams used for decryption.
             using MemoryStream msDecrypt = new(encrypted);
             using CryptoStream csDecrypt = new(msDecrypt, decryptor, CryptoStreamMode.Read);
