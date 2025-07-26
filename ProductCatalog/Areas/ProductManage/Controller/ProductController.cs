@@ -16,17 +16,33 @@ namespace ProductCatalog.Areas.ProductManage.Controller
             _repository = repository;
         }
 
+        /// <summary>
+        /// Retrieves all products from the database.
+        /// </summary>
+        /// <returns>An API response containing the list of products.</returns>
         [HttpGet]
-        public async Task<ActionResult<ViProduct>> GetCategoriesAsync()
+        public async Task<ActionResult<APIRequestModel>> GetAllProducts()
         {
-            List<ViProduct> product = await _repository.GetAllProduct();
-            return Ok(new APIRequestModel()
+            try
             {
-                Meta = new { total_count = product.Count },
-                Data = product,
-                Errors = null,
-                Links = null
-            });
+                List<ViProduct> product = await _repository.GetAllProducts();
+                return Ok(new APIRequestModel()
+                {
+                    Meta = new { total_count = product.Count },
+                    Data = product,
+                    Errors = null,
+                    Links = null
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new APIRequestModel
+                {
+                    Data = null,
+                    Errors = new[] { ex.Message },
+                    Links = null
+                });
+            }
         }
     }
 }
