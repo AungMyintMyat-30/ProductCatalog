@@ -9,6 +9,7 @@ namespace ProductCatalog.Areas.Master.Pages.Category
     {
         private readonly CategoryRepo? _repository;
         private readonly ICryptography _cryptography;
+
         public DeleteModel(CategoryRepo repository, ICryptography cryptography)
         {
             _repository = repository;
@@ -31,6 +32,7 @@ namespace ProductCatalog.Areas.Master.Pages.Category
             {
                 return NotFound();
             }
+
             return Page();
         }
 
@@ -43,6 +45,7 @@ namespace ProductCatalog.Areas.Master.Pages.Category
 
             Category!.DeletedDate = DateTime.Now;
             Category.DeletedUser = "Admin Two";
+
             await _repository!.DeleteCategory(Category);
 
             return RedirectToPage("./Index");

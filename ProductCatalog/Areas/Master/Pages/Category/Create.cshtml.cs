@@ -15,6 +15,7 @@ namespace ProductCatalog.Areas.Master.Pages.Category
 
         [BindProperty]
         public ProductCatalogCore.Entities.Category? Category { get; set; }
+
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
@@ -24,6 +25,7 @@ namespace ProductCatalog.Areas.Master.Pages.Category
 
             Category!.CreatedDate = DateTime.Now;
             Category.CreatedUser = "Admin";
+
             await _repository!.AddCategory(Category);
 
             return RedirectToPage("./Index");

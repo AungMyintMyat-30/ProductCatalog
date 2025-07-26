@@ -9,6 +9,7 @@ namespace ProductCatalog.Areas.Master.Pages.Category
     {
         private readonly CategoryRepo? _repository;
         private readonly ICryptography _cryptography;
+
         public EditModel(CategoryRepo repository, ICryptography cryptography)
         {
             _repository = repository;
@@ -31,6 +32,7 @@ namespace ProductCatalog.Areas.Master.Pages.Category
             {
                 return NotFound();
             }
+
             return Page();
         }
 
@@ -43,6 +45,7 @@ namespace ProductCatalog.Areas.Master.Pages.Category
 
             Category!.UpdatedDate = DateTime.Now;
             Category.UpdatedUser = "Admin One";
+
             await _repository!.UpdateCategory(Category);
 
             return RedirectToPage("./Index");
