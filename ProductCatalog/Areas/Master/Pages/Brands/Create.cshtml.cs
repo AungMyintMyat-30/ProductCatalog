@@ -16,6 +16,7 @@ namespace ProductCatalog.Areas.Master.Pages.Brands
 
         [BindProperty]
         public Brand? Brand { get; set; }
+
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
@@ -25,6 +26,7 @@ namespace ProductCatalog.Areas.Master.Pages.Brands
 
             Brand!.CreatedDate = DateTime.Now;
             Brand.CreatedUser = "Admin";
+
             await _repository!.AddBrand(Brand);
 
             return RedirectToPage("./Index");

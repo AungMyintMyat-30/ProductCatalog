@@ -32,6 +32,7 @@ namespace ProductCatalog.Areas.Master.Pages.Brands
             {
                 return NotFound();
             }
+
             return Page();
         }
 
@@ -44,6 +45,7 @@ namespace ProductCatalog.Areas.Master.Pages.Brands
 
             Brand!.DeletedDate = DateTime.Now;
             Brand.DeletedUser = "Admin Two";
+
             await _repository!.DeleteBrand(Brand);
 
             return RedirectToPage("./Index");

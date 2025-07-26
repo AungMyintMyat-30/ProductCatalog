@@ -32,6 +32,7 @@ namespace ProductCatalog.Areas.Master.Pages.Brands
             {
                 return NotFound();
             }
+
             return Page();
         }
 
@@ -44,6 +45,7 @@ namespace ProductCatalog.Areas.Master.Pages.Brands
 
             Brand!.UpdatedDate = DateTime.Now;
             Brand.UpdatedUser = "Admin One";
+
             await _repository!.UpdateBrand(Brand);
 
             return RedirectToPage("./Index");
