@@ -15,28 +15,31 @@ namespace ProductCatalog.Repositories
             _logger = logger;
         }
 
-        public async Task<List<ViProduct>> GetAllProduct()
+        public async Task<List<ViProduct>> GetAllProducts()
         {
-            using var connection = new SqlConnection(_connectionString);
             try
             {
+                using var connection = new SqlConnection(_connectionString);
                 var result = await connection.QueryAsync<ViProduct>("SELECT * FROM VI_Product WHERE DeletedDate IS NULL ORDER BY CreatedDate DESC");
                 return result.ToList();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
-                throw new Exception("An error occurred while retrieving products.", ex);
+                _logger.LogError(ex, "Error in {Method}", nameof(GetAllProducts));
+                throw;
             }
         }
 
         public async Task<bool> AddProduct(Product product)
         {
-            using var connection = new SqlConnection(_connectionString);
             try
             {
-                string sql = @"INSERT INTO Product (ProductId, SubId, BrandId, Code, ProductName, Price, Description, ImgUrl, CreatedDate, CreatedUser)
-                       VALUES (@ProductId, @SubId, @BrandId, @Code, @ProductName, @Price, @Description, @ImgUrl, @CreatedDate, @CreatedUser)";
+                using var connection = new SqlConnection(_connectionString);
+                string sql = @"
+                INSERT INTO Product (ProductId, SubId, BrandId, Code, ProductName, 
+                Price, Description, ImgUrl, CreatedDate, CreatedUser)
+                VALUES (@ProductId, @SubId, @BrandId, @Code, @ProductName, 
+                @Price, @Description, @ImgUrl, @CreatedDate, @CreatedUser)";
 
                 int rowsAffected = await connection.ExecuteAsync(sql, product);
 
@@ -44,33 +47,34 @@ namespace ProductCatalog.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
-                throw new Exception("An error occurred while retrieving products.", ex);
+                _logger.LogError(ex, "Error in {Method}", nameof(AddProduct));
+                throw;
             }
         }
 
-        public async Task<ViProduct> GetProductById(string id)
+        public async Task<ViProduct?> GetProductById(string id)
         {
-            using var connection = new SqlConnection(_connectionString);
             try
             {
-                var result = await connection.QueryFirstOrDefaultAsync<ViProduct>("SELECT * FROM VI_Product WHERE ProductId = @Id", new { Id = id });
-                return result!;
+                using var connection = new SqlConnection(_connectionString);
+                return await connection.QueryFirstOrDefaultAsync<ViProduct>("SELECT * FROM VI_Product WHERE ProductId = @Id", new { Id = id });
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
-                throw new Exception("An error occurred while retrieving products.", ex);
+                _logger.LogError(ex, "Error in {Method}", nameof(GetProductById));
+                throw;
             }
         }
 
         public async Task<bool> UpdateProduct(Product product)
         {
-            using var connection = new SqlConnection(_connectionString);
             try
             {
-                string sql = @"UPDATE Product SET SubId=@SubId, BrandId=@BrandId, Code=@Code, ProductName=@ProductName, Price=@Price,
-                               Description=@Description, ImgUrl=@ImgUrl, UpdatedDate=@UpdatedDate, UpdatedUser=@UpdatedUser WHERE ProductId=@ProductId";
+                using var connection = new SqlConnection(_connectionString);
+                string sql = @"
+                UPDATE Product SET SubId=@SubId, BrandId=@BrandId, Code=@Code, ProductName=@ProductName, Price=@Price,
+                Description=@Description, ImgUrl=@ImgUrl, UpdatedDate=@UpdatedDate, UpdatedUser=@UpdatedUser 
+                WHERE ProductId=@ProductId";
 
                 int rowsAffected = await connection.ExecuteAsync(sql, product);
 
@@ -78,23 +82,24 @@ namespace ProductCatalog.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
-                throw new Exception("An error occurred while retrieving products.", ex);
+                _logger.LogError(ex, "Error in {Method}", nameof(UpdateProduct));
+                throw;
             }
         }
 
         public async Task<int> DeleteProduct(Product product)
         {
-            using var connection = new SqlConnection(_connectionString);
             try
             {
-                var result = await connection.ExecuteAsync("UPDATE Product SET DeletedDate=@DeletedDate,DeletedUser=@DeletedUser WHERE ProductId=@ProductId", product);
-                return result!;
+                using var connection = new SqlConnection(_connectionString);
+                return await connection.ExecuteAsync(@"
+                UPDATE Product SET DeletedDate=@DeletedDate,DeletedUser=@DeletedUser 
+                WHERE ProductId=@ProductId", product);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
-                throw new Exception("An error occurred while retrieving products.", ex);
+                _logger.LogError(ex, "Error in {Method}", nameof(DeleteProduct));
+                throw;
             }
         }
     }
