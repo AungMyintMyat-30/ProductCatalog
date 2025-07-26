@@ -10,6 +10,7 @@ namespace ProductCatalog.Areas.ProductManage.Pages.Products
     {
         private readonly ProductRepo? _repository;
         private readonly ICryptography _cryptography;
+
         public DeleteModel(ProductRepo repository, ICryptography cryptography)
         {
             _repository = repository;

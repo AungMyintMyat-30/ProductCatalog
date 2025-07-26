@@ -14,13 +14,17 @@ namespace ProductCatalog.Areas.ProductManage.Pages.Products
         private readonly IRandomizer _randomizer;
         private readonly ICryptography _cryptography;
 
-        public EditModel(ProductRepo repository, IImageService imageService, IRandomizer randomizer, ICryptography cryptography)
+        public EditModel(ProductRepo repository, 
+                         IImageService imageService, 
+                         IRandomizer randomizer, 
+                         ICryptography cryptography)
         {
             _repository = repository;
             _imageService = imageService;
             _randomizer = randomizer;
             _cryptography = cryptography;
         }
+
         [BindProperty]
         public IFormFile? ImageFile { get; set; }
         [BindProperty]
@@ -59,6 +63,7 @@ namespace ProductCatalog.Areas.ProductManage.Pages.Products
             product.Description = ViProduct!.Description;
             product!.UpdatedDate = DateTime.Now;
             product.UpdatedUser = "Admin One";
+
             if (ImageFile != null)
             {
                 string extension = ("." + ImageFile.FileName.Split('.')[^1]).ToLower();
@@ -70,6 +75,7 @@ namespace ProductCatalog.Areas.ProductManage.Pages.Products
                 if (ImageFile != null)
                     _imageService.Upload(ImageFile, ViProduct!.ProductId, "products");
             }
+
             return RedirectToPage("./Index");
         }
     }
