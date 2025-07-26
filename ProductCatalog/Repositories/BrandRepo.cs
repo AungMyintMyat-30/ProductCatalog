@@ -1,7 +1,5 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using ProductCatalogCore.Entities;
 
 namespace ProductCatalog.Repositories
@@ -11,20 +9,6 @@ namespace ProductCatalog.Repositories
         private readonly string? _connectionString;
         private readonly ILogger<BrandRepo> _logger;
 
-        private const string SelectAllQuery = "SELECT * FROM Brand WHERE DeletedDate IS NULL";
-        private const string SelectByIdQuery = "SELECT * FROM Brand WHERE BrandId = @Id";
-        private const string InsertQuery = @"
-            INSERT INTO Brand (BrandName, CreatedDate, CreatedUser) 
-            VALUES (@BrandName, @CreatedDate, @CreatedUser); 
-            SELECT CAST(SCOPE_IDENTITY() as int)";
-        private const string UpdateQuery = @"
-            UPDATE Brand 
-            SET BrandName = @BrandName, UpdatedDate = @UpdatedDate, UpdatedUser = @UpdatedUser 
-            WHERE BrandId = @BrandId";
-        private const string DeleteQuery = @"
-            UPDATE Brand 
-            SET DeletedDate = @DeletedDate, DeletedUser = @DeletedUser 
-            WHERE BrandId = @BrandId";
         private const string CheckProductByBrandIdQuery = "SELECT * FROM Product WHERE BrandId = @Id";
 
         public BrandRepo(IConfiguration configuration,
@@ -34,17 +18,17 @@ namespace ProductCatalog.Repositories
             _logger = logger;
         }
 
-        public async Task<List<Brand>> GetAllBrand()
+        public async Task<List<Brand>> GetAllBrands()
         {
             try
             {
                 using var connection = new SqlConnection(_connectionString);
-                var result = await connection.QueryAsync<Brand>(SelectAllQuery);
+                var result = await connection.QueryAsync<Brand>("SELECT * FROM Brand WHERE DeletedDate IS NULL");
                 return result.ToList();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error in {Method}", nameof(GetAllBrand));
+                _logger.LogError(ex, "Error in {Method}", nameof(GetAllBrands));
                 throw;
             }
         }
@@ -54,7 +38,10 @@ namespace ProductCatalog.Repositories
             try
             {
                 using var connection = new SqlConnection(_connectionString);
-                return await connection.ExecuteScalarAsync<int>(InsertQuery, brand);
+                return await connection.ExecuteScalarAsync<int>(@"
+                INSERT INTO Brand (BrandName, CreatedDate, CreatedUser) 
+                VALUES (@BrandName, @CreatedDate, @CreatedUser); 
+                SELECT CAST(SCOPE_IDENTITY() as int)", brand);
             }
             catch (Exception ex)
             {
@@ -68,7 +55,7 @@ namespace ProductCatalog.Repositories
             try
             {
                 using var connection = new SqlConnection(_connectionString);
-                return await connection.QueryFirstOrDefaultAsync<Brand>(SelectByIdQuery, new { Id = id });
+                return await connection.QueryFirstOrDefaultAsync<Brand>("SELECT * FROM Brand WHERE BrandId = @Id", new { Id = id });
             }
             catch (Exception ex)
             {
@@ -82,7 +69,10 @@ namespace ProductCatalog.Repositories
             try
             {
                 using var connection = new SqlConnection(_connectionString);
-                return await connection.ExecuteAsync(UpdateQuery, brand);
+                return await connection.ExecuteAsync(@"
+                UPDATE Brand 
+                SET BrandName = @BrandName, UpdatedDate = @UpdatedDate, UpdatedUser = @UpdatedUser 
+                WHERE BrandId = @BrandId", brand);
             }
             catch (Exception ex)
             {
@@ -96,7 +86,7 @@ namespace ProductCatalog.Repositories
             try
             {
                 using var connection = new SqlConnection(_connectionString);
-                return await connection.QueryFirstOrDefaultAsync<Product>(CheckProductByBrandIdQuery, new { Id = id });
+                return await connection.QueryFirstOrDefaultAsync<Product>("SELECT * FROM Product WHERE BrandId = @Id", new { Id = id });
             }
             catch (Exception ex)
             {
@@ -110,7 +100,10 @@ namespace ProductCatalog.Repositories
             try
             {
                 using var connection = new SqlConnection(_connectionString);
-                return await connection.ExecuteAsync(DeleteQuery, brand);
+                return await connection.ExecuteAsync(@"
+                UPDATE Brand 
+                SET DeletedDate = @DeletedDate, DeletedUser = @DeletedUser 
+                WHERE BrandId = @BrandId", brand);
             }
             catch (Exception ex)
             {
