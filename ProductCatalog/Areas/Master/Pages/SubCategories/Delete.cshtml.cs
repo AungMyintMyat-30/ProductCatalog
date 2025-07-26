@@ -10,6 +10,7 @@ namespace ProductCatalog.Areas.Master.Pages.SubCategories
     {
         private readonly SubCategoryRepo? _repository;
         private readonly ICryptography _cryptography;
+
         public DeleteModel(SubCategoryRepo repository, ICryptography cryptography)
         {
             _repository = repository;
@@ -46,6 +47,7 @@ namespace ProductCatalog.Areas.Master.Pages.SubCategories
             subcategory!.SubId = ViSubCategory!.SubId;
             subcategory!.DeletedDate = DateTime.Now;
             subcategory.DeletedUser = "Admin Two";
+
             await _repository!.DeleteSubCategory(subcategory);
 
             return RedirectToPage("./Index");

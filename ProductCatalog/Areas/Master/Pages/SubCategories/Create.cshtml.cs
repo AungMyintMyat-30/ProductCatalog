@@ -16,6 +16,7 @@ namespace ProductCatalog.Areas.Master.Pages.SubCategories
 
         [BindProperty]
         public SubCategory? SubCategory { get; set; }
+
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
@@ -25,6 +26,7 @@ namespace ProductCatalog.Areas.Master.Pages.SubCategories
 
             SubCategory!.CreatedDate = DateTime.Now;
             SubCategory.CreatedUser = "Admin";
+
             await _repository!.AddSubCategory(SubCategory);
 
             return RedirectToPage("./Index");

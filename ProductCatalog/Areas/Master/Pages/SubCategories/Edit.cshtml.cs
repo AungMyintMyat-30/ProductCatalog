@@ -10,6 +10,7 @@ namespace ProductCatalog.Areas.Master.Pages.SubCategories
     {
         private readonly SubCategoryRepo? _repository;
         private readonly ICryptography _cryptography;
+
         public EditModel(SubCategoryRepo repository, ICryptography cryptography)
         {
             _repository = repository;
@@ -48,6 +49,7 @@ namespace ProductCatalog.Areas.Master.Pages.SubCategories
             subCategory!.CatId = ViSubCategory!.CatId;
             subCategory!.UpdatedDate = DateTime.Now;
             subCategory.UpdatedUser = "Admin One";
+
             await _repository!.UpdateSubCategory(subCategory);
 
             return RedirectToPage("./Index");
