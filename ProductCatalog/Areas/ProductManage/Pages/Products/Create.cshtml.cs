@@ -13,12 +13,15 @@ namespace ProductCatalog.Areas.ProductManage.Pages.Products
         private readonly IImageService _imageService;
         private readonly IRandomizer _randomizer;
 
-        public CreateModel(ProductRepo repository, IImageService imageService, IRandomizer randomizer)
+        public CreateModel(ProductRepo repository,
+                           IImageService imageService,
+                           IRandomizer randomizer)
         {
             _repository = repository;
             _imageService = imageService;
             _randomizer = randomizer;
         }
+
         [BindProperty]
         public IFormFile? ImageFile { get; set; }
         [BindProperty]
@@ -51,6 +54,7 @@ namespace ProductCatalog.Areas.ProductManage.Pages.Products
             product.Description = ViProduct!.Description;
             product!.CreatedDate = DateTime.Now;
             product.CreatedUser = "Admin";
+
             if (ImageFile != null)
             {
                 string extension = ("." + ImageFile.FileName.Split('.')[^1]).ToLower();
@@ -63,6 +67,7 @@ namespace ProductCatalog.Areas.ProductManage.Pages.Products
                     _imageService.Upload(ImageFile, PID, "products");
 
             }
+
             return RedirectToPage("./Index");
         }
     }
